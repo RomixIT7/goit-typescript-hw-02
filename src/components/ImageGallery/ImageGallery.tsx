@@ -1,7 +1,17 @@
+import { FC } from "react";
+
+import { ISearchData } from "../../App.types";
+
 import ImageCard from "../ImageCard/ImageCard";
+
 import css from "./ImageGallery.module.css";
 
-const ImageGallery = ({ searchData, openModal }) => {
+interface ImageGalleryProps {
+  searchData: ISearchData[];
+  openModal: (searchDataItem: ISearchData) => void;
+}
+
+const ImageGallery: FC<ImageGalleryProps> = ({ searchData, openModal }) => {
   return (
     <ul className={css.imageList}>
       {Array.isArray(searchData) &&

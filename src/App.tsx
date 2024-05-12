@@ -12,19 +12,21 @@ import SearchBar from "./components/SearchBar/SearchBar";
 
 import { searchImages } from "./services/api";
 
+import { ISearchData } from "./App.types";
+
 ReactModal.setAppElement("#root");
 
-const per_page = 12;
+const per_page: number = 12;
 
 function App() {
-  const [searchData, setSearchData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [query, setQuery] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalItem, setModalItem] = useState(null);
-  const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(null);
+  const [searchData, setSearchData] = useState<ISearchData[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [query, setQuery] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [modalItem, setModalItem] = useState<ISearchData | null>(null);
+  const [page, setPage] = useState<number>(1);
+  const [total, setTotal] = useState<number | null>(null);
 
   useEffect(() => {
     async function getInfo() {
@@ -36,7 +38,13 @@ function App() {
         if (page === 1) {
           setSearchData(results);
         } else {
-          setSearchData((prevData) => [...prevData, ...results]);
+          setSearchData((prevData) => {
+            if (Array.isArray(prevData)) {
+              return [...prevData, ...results];
+            } else {
+              return [...results];
+            }
+          });
         }
       } catch (error) {
         setError(true);
@@ -47,22 +55,22 @@ function App() {
     getInfo();
   }, [query, page]);
 
-  const onSetSearchQuery = (searchInfo) => {
+  const onSetSearchQuery = (searchInfo: string): void => {
     setQuery(searchInfo);
     setPage(1);
   };
 
-  const onClickLoadMoreBtn = () => {
+  const onClickLoadMoreBtn = (): void => {
     setPage((prevPage) => prevPage + 1);
   };
 
-  const openModal = (searchDataItem) => {
+  const openModal = (searchDataItem: ISearchData): void => {
     setModalItem(searchDataItem);
     setIsModalOpen(true);
     document.body.style.overflow = "hidden";
   };
 
-  const closeModal = () => {
+  const closeModal = (): void => {
     setIsModalOpen(false);
     document.body.style.overflow = "";
   };
@@ -96,7 +104,7 @@ function App() {
           closeModal={closeModal}
         />
       )}
-      {searchData && total > page * per_page && (
+      {searchData && total && total > page * per_page && (
         <LoadMoreBtn onClickLoadMoreBtn={onClickLoadMoreBtn} />
       )}
       {searchData && searchData.length === 0 && <NothingFound />}

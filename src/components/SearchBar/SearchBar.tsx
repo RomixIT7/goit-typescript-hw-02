@@ -1,14 +1,22 @@
+import { FC, FormEvent } from "react";
 import toast from "react-hot-toast";
+
 import css from "./SearchBar.module.css";
 
 const notify = () => {
   toast("You must enter text, if you want to search images");
 };
 
-const SearchBar = ({ onSetSearchQuery }) => {
-  const handleSubmit = (e) => {
+interface SearchBarProps {
+  onSetSearchQuery: (searchInfo: string) => void;
+}
+
+const SearchBar: FC<SearchBarProps> = ({ onSetSearchQuery }) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const query = e.currentTarget.search.value.trim();
+    const form = e.currentTarget as HTMLFormElement;
+    const input = form.elements.namedItem("search") as HTMLInputElement;
+    const query = input.value.trim();
     if (query === "") {
       notify();
       return;

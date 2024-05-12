@@ -1,6 +1,15 @@
+import { FC } from "react";
+
+import { ISearchData } from "../../App.types";
+
 import css from "./ImageCard.module.css";
 
-const ImageCard = ({ searchDataItem, openModal }) => {
+interface ImageCardProps {
+  searchDataItem: ISearchData;
+  openModal: (searchDataItem: ISearchData) => void;
+}
+
+const ImageCard: FC<ImageCardProps> = ({ searchDataItem, openModal }) => {
   const {
     alt_description,
     urls: { small },

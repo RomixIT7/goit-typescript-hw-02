@@ -1,6 +1,8 @@
+import { FC } from "react";
+
 import css from "./ErrorMessage.module.css";
 
-const ErrorMessage = () => {
+const ErrorMessage: FC = () => {
   return (
     <p className={css.errorMsg}>
       <span className={css.errorIcon}>&#10060;</span> <br />
