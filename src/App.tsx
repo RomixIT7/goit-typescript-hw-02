@@ -12,16 +12,11 @@ import SearchBar from "./components/SearchBar/SearchBar";
 
 import { searchImages } from "./services/api";
 
-import { ISearchData } from "./App.types";
+import { ISearchData, ISearchResults } from "./App.types";
 
 ReactModal.setAppElement("#root");
 
 const per_page: number = 12;
-
-interface ISearchResults {
-  results: ISearchData[];
-  total: number;
-}
 
 function App() {
   const [searchData, setSearchData] = useState<ISearchData[] | null>(null);

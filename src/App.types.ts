@@ -8,3 +8,8 @@ export interface ISearchData {
   likes: number;
   user: { name: string };
 }
+
+export interface ISearchResults {
+  results: ISearchData[];
+  total: number;
+}
