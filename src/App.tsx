@@ -18,6 +18,11 @@ ReactModal.setAppElement("#root");
 
 const per_page: number = 12;
 
+interface ISearchResults {
+  results: ISearchData[];
+  total: number;
+}
+
 function App() {
   const [searchData, setSearchData] = useState<ISearchData[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -33,7 +38,11 @@ function App() {
       if (query.length === 0) return;
       try {
         setLoading(true);
-        const { results, total } = await searchImages(query, page, per_page);
+        const { results, total }: ISearchResults = await searchImages(
+          query,
+          page,
+          per_page
+        );
         setTotal(total);
         if (page === 1) {
           setSearchData(results);
